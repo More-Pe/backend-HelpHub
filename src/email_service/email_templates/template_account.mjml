@@ -1,0 +1,63 @@
+<mjml>
+    <mj-head>
+      <mj-title>Confirmación de Cuenta</mj-title>
+      <mj-font name="Roboto" href="https://fonts.googleapis.com/css?family=Roboto" />
+      <mj-attributes>
+        <mj-all font-family="Roboto, Helvetica, sans-serif" />
+      </mj-attributes>
+      <mj-style inline="inline">
+        @keyframes vibrate {
+          0% { transform: rotate(0deg); }
+          25% { transform: rotate(3deg); }
+          50% { transform: rotate(0deg); }
+          75% { transform: rotate(-3deg); }
+          100% { transform: rotate(0deg); }
+        }
+        .vibrating-lock {
+          animation: vibrate 0.3s infinite;
+          display: inline-block;
+        }
+      </mj-style>
+    </mj-head>
+    <mj-body background-color="#f4f4f4">
+      <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
+        <mj-column width="100%">
+          <mj-image src="" alt="Logo" align="center" width="150px" />
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
+        <mj-column width="100%">
+          <mj-text font-size="24px" color="#000000" align="center">
+            Confirma tu cuenta
+          </mj-text>
+          <mj-text font-size="16px" color="#000000" align="center">
+            Gracias por registrarte. Por favor, confirma tu cuenta haciendo clic en el botón de abajo.
+          </mj-text>
+          <mj-text align="center" font-size="24px">
+            <span class="vibrating-lock">🔒</span>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
+        <mj-column width="100%">
+          <mj-button background-color="#000000" color="#ffffff" href="" font-size="16px">
+            Confirmar Cuenta
+          </mj-button>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
+        <mj-column width="100%">
+          <mj-text font-size="14px" color="#000000" align="center">
+            Si no has creado una cuenta, puedes ignorar este correo.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#f4f4f4" padding-bottom="20px" padding-top="20px">
+        <mj-column width="100%">
+          <mj-text font-size="12px" color="#000000" align="center">
+            © 2023 Tu Empresa. Todos los derechos reservados.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-body>
+  </mjml>
