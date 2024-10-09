@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsDecimal, IsEmail, IsNotEmpty, IsString, IsBoolean } from "class-validator";
+import { IsArray, IsDecimal, IsEmail, IsNotEmpty, IsString, IsBoolean, Matches, IsOptional } from "class-validator";
 export class CreateUserDto {
     @ApiProperty({
         example: 'too@gmail.com',
@@ -61,4 +61,23 @@ export class CreateUserDto {
     })
     @IsBoolean()
     showPhone: boolean;
+
+    @ApiProperty({
+        example: 'false',
+        description: 'blocked',
+        format: 'string',
+    })
+    @IsBoolean()
+    blocked: boolean;
+
+    @ApiProperty({
+        example: '445667',
+        description: 'twoFacode',
+        format: 'string',
+    })
+    @IsOptional()
+    @Matches(/^\d{6}$/, { message: 'The code must be exactly 6 digits long' })
+    @IsString()
+    twoFa: string;
+
 }
