@@ -4,21 +4,24 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.schema';
 import { Model } from 'mongoose';
+import * as argon2 from "argon2";
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) { }
-  //Registrar un usuario nuevo (vendrá desde link del correo para el registro)
+  //Register new user.
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const { email } = createUserDto;
+      const { email ,... UserData } = createUserDto;
+      let {password} = createUserDto;
+      const passEncrypted = await argon2.hash(password);
       const userExists = await this.userModel.find({ email: email });
       if (userExists.length == 1) {
         throw new NotAcceptableException({
         })
       }
       else {
-        const userCreate = await this.userModel.create(createUserDto);
+        const userCreate = await this.userModel.create({email:email,password:passEncrypted,nameUser:createUserDto.nameUser,surnameUser:createUserDto.surnameUser,phone:createUserDto.phone,showPhone:createUserDto.showPhone,optionCall:createUserDto.optionCall,blocked:createUserDto.blocked});
         return userCreate.save();
       }
 
@@ -29,7 +32,7 @@ export class UserService {
       })
     }
   }
-  //Listar todos los usuarios
+  //Search all users
   async findAll() {
     try {
       const users = await this.userModel.find();
@@ -42,7 +45,7 @@ export class UserService {
       })
     }
   }
-  //Actualizar cualqueira de los 5 datos indicados.
+  //Update dates of user
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       const { nameUser, surnameUser, phone, optionCall, showPhone } = updateUserDto;
@@ -57,11 +60,10 @@ export class UserService {
       })
     }
   }
-  //encontrar un cliente por nºde Cliente en la bbdd
+  //find by email some user.
   async findOne(email: string) {
     try {
       const userExists = await this.userModel.find({ email: email });
-      console.log(userExists);
       return userExists;
 
     } catch (error) {

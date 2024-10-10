@@ -3,6 +3,9 @@ import { EmailServiceService } from './email_service.service';
 import { EmailServiceController } from './email_service.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { UserModule } from 'src/user/user.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from 'src/user/entities/user.schema';
+import { AuthModule } from 'src/auth/auth.module';
 
 
 
@@ -30,7 +33,9 @@ import { UserModule } from 'src/user/user.module';
      
     }),
   }),
-  UserModule,
-]
+  UserModule
+  
+],
+exports: [EmailServiceService], // Exporta el servicio
 })
 export class EmailServiceModule {}
