@@ -17,5 +17,10 @@ export class EmailServiceController {
     return this.emailServiceService.loginEmail(loginEmail);
   }
 
+  @Post('resetEmail')
+  resetEmail(@Body() resetEmail: LoginUserDto) {
+    return this.emailServiceService.resetEmail(resetEmail);
+  }
+
   
 }

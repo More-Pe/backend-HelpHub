@@ -6,7 +6,7 @@ export class LoginUserDto {
         description: 'username',
         format: 'string',
     })
-    @IsString()
+    @IsEmail()
     @IsNotEmpty()
     email: string;
 
