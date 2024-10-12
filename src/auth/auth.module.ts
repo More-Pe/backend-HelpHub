@@ -8,7 +8,6 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt';
 import { EmailServiceModule } from 'src/email_service/email_service.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EmailService } from 'src/email_service/entities/email_service.entity';
 
 @Module({
   imports: [
@@ -33,7 +32,7 @@ import { EmailService } from 'src/email_service/entities/email_service.entity';
     JwtModule
   ],
   controllers: [AuthController],
-  providers: [AuthService,JwtStrategy,EmailService],
+  providers: [AuthService,JwtStrategy],
   exports: [
     
     AuthService

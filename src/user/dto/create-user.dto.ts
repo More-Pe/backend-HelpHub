@@ -1,12 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsDecimal, IsEmail, IsNotEmpty, IsString, IsBoolean, Matches, IsOptional } from "class-validator";
+import { IsArray, IsDecimal, IsEmail, IsNotEmpty, IsString, IsBoolean, Matches, IsOptional, MinLength } from "class-validator";
 export class CreateUserDto {
     @ApiProperty({
         example: 'too@gmail.com',
         description: 'username',
         format: 'string',
     })
-    @IsString()
+    @IsEmail()
     @IsNotEmpty()
     email: string;
 
@@ -17,6 +17,10 @@ export class CreateUserDto {
     })
     @IsString()
     @IsNotEmpty()
+    @MinLength(6, { message: 'Password should contain minimum 6 digits.' })
+    @Matches(/^(?=.*[A-Z])(?=.*\d).+$/, {
+        message: 'Password should contain mínimum one Mayusc, one number, and one symbol',
+      })
     password: string;
 
     @ApiProperty({

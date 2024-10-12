@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/user/entities/user.schema';
 import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { SendMailInfo } from './send-mail-info.interface';
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
@@ -20,8 +19,8 @@ export class EmailServiceService {
   ) { }
 
   //Send Email to put 2FA code. We check too if user exists.
-  async emailAccount(emailAccount: CreateUserDto) {
-    const { email, password, twoFa, ...userData } = emailAccount;
+  async emailAccount(emailAccount: LoginUserDto) {
+    const { email, twoFa } = emailAccount;
     const user = await this.userService.findOne(email);
 
     if (user.length == 1) return {      //User exists? Yes-> Error code with text, and don't send email.
@@ -50,23 +49,23 @@ export class EmailServiceService {
         display: inline-block;
       }
       .digit-box {
-        display: inline-block;
-        width: 40px;
-        height: 50px;
-        margin: 0 5px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 24px;
-        line-height: 50px;
-        text-align: center;
-      }
+      display: inline-block;
+      width: 30px;
+      height: 40px;
+      margin: 0 5px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 24px;
+      line-height: 40px;
+      text-align: center;
+    }
     </mj-style>
   </mj-head>
   <mj-body background-color="#f4f4f4">
     <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
       <mj-column width="100%">
-        <mj-image src="https://via.placeholder.com/150x50" alt="Logo" align="center" width="150px" />
+        <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
       </mj-column>
     </mj-section>
     <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
@@ -98,14 +97,14 @@ export class EmailServiceService {
       </mj-column>
     </mj-section>
     <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
-      <mj-column width="100%">
+      <mj-column width="80%">
         <mj-text font-size="14px" color="#000000" align="center">
           Si no has solicitado este código, por favor ignora este correo o contacta con nuestro equipo de soporte.
         </mj-text>
       </mj-column>
     </mj-section>
     <mj-section background-color="#f4f4f4" padding-bottom="20px" padding-top="20px">
-      <mj-column width="100%">
+      <mj-column width="80%">
         <mj-text font-size="12px" color="#000000" align="center">
           © 2024 HelpHub.
         </mj-text>
@@ -163,14 +162,14 @@ export class EmailServiceService {
     }
     .digit-box {
       display: inline-block;
-      width: 40px;
-      height: 50px;
+      width: 30px;
+      height: 40px;
       margin: 0 5px;
       background-color: #f0f0f0;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 24px;
-      line-height: 50px;
+      line-height: 40px;
       text-align: center;
     }
   </mj-style>
@@ -178,7 +177,7 @@ export class EmailServiceService {
 <mj-body background-color="#f4f4f4">
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
     <mj-column width="100%">
-      <mj-image src="https://via.placeholder.com/150x50" alt="Logo" align="center" width="150px" />
+      <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
@@ -210,14 +209,14 @@ export class EmailServiceService {
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
-    <mj-column width="100%">
+    <mj-column width="80%">
       <mj-text font-size="14px" color="#000000" align="center">
         Si no has solicitado este código, por favor ignora este correo o contacta con nuestro equipo de soporte.
       </mj-text>
     </mj-column>
   </mj-section>
   <mj-section background-color="#f4f4f4" padding-bottom="20px" padding-top="20px">
-    <mj-column width="100%">
+    <mj-column width="80%">
       <mj-text font-size="12px" color="#000000" align="center">
         © 2024 HelpHub.
       </mj-text>
@@ -274,14 +273,14 @@ export class EmailServiceService {
     }
     .digit-box {
       display: inline-block;
-      width: 40px;
-      height: 50px;
+      width: 30px;
+      height: 40px;
       margin: 0 5px;
       background-color: #f0f0f0;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 24px;
-      line-height: 50px;
+      line-height: 40px;
       text-align: center;
     }
   </mj-style>
@@ -289,7 +288,7 @@ export class EmailServiceService {
 <mj-body background-color="#f4f4f4">
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
     <mj-column width="100%">
-      <mj-image src="https://via.placeholder.com/150x50" alt="Logo" align="center" width="150px" />
+      <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
@@ -321,14 +320,14 @@ export class EmailServiceService {
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
-    <mj-column width="100%">
+    <mj-column width="80%">
       <mj-text font-size="14px" color="#000000" align="center">
         Si no has solicitado este código, por favor ignora este correo o contacta con nuestro equipo de soporte.
       </mj-text>
     </mj-column>
   </mj-section>
   <mj-section background-color="#f4f4f4" padding-bottom="20px" padding-top="20px">
-    <mj-column width="100%">
+    <mj-column width="80%">
       <mj-text font-size="12px" color="#000000" align="center">
         © 2024 HelpHub.
       </mj-text>
