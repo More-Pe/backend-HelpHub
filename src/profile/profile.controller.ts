@@ -19,7 +19,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Post('register')
+  @Post('')
   @UseGuards(AuthGuard('jwt'))
   @ApiResponse({ status: 201, description: 'Created' })
   @ApiResponse({ status: 400, description: 'Bad request' })
