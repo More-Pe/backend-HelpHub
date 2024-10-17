@@ -16,6 +16,10 @@ import {
   ApiTags,
   ApiBearerAuth,
   ApiUnauthorizedResponse,
+  ApiNotFoundResponse,
+  ApiConflictResponse,
+  ApiForbiddenResponse,
+  ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { GetUserId } from '../decorators/get-user-id.decorator';
 import { AuthGuard } from '@nestjs/passport';
@@ -28,10 +32,12 @@ export class ProfileController {
 
   @Post('')
   @UseGuards(AuthGuard('jwt'))
-  @ApiResponse({ status: 201, description: 'Created' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiOperation({ summary: 'Create profile' })
+  @ApiResponse({ status: 201, description: 'Profile created successfully' })
+  @ApiConflictResponse({ description: 'User already has a profile' })
+  @ApiBadRequestResponse({ description: 'Invalid data provided' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiResponse({ status: 406, description: 'Error creating profile' })
   createProfile(
     @Body() createProfileDto: CreateProfileDto,
     @GetUserId() userId: string,
@@ -41,12 +47,18 @@ export class ProfileController {
 
   @Get('allProfiles')
   @ApiOperation({ summary: 'Get all profiles' })
+  @ApiResponse({ status: 200, description: 'Profiles fetched successfully' })
+  @ApiNotFoundResponse({ description: 'No profiles found' })
+  @ApiResponse({ status: 406, description: 'Error fetching profiles' })
   async findAll() {
     return this.profileService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get profile by profile ID' })
+  @ApiResponse({ status: 200, description: 'Profile fetched successfully' })
+  @ApiNotFoundResponse({ description: 'Profile not found' })
+  @ApiResponse({ status: 406, description: 'Error fetching profile' })
   findOne(@Param('id') id: string) {
     return this.profileService.findOne(id);
   }
@@ -54,7 +66,10 @@ export class ProfileController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get profile by user ID (token)' })
+  @ApiResponse({ status: 200, description: 'Profile fetched successfully' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Profile not found for this user' })
+  @ApiResponse({ status: 406, description: 'Error fetching profile' })
   async findByUserId(@GetUserId() userId: string) {
     return this.profileService.findByUserId(userId);
   }
@@ -62,7 +77,14 @@ export class ProfileController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Update profile' })
+  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
+  @ApiNotFoundResponse({ description: 'Profile not found' })
+  @ApiForbiddenResponse({
+    description: 'You do not have permission to update this profile',
+  })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBadRequestResponse({ description: 'Invalid data provided' })
+  @ApiResponse({ status: 406, description: 'Error updating profile' })
   update(
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
