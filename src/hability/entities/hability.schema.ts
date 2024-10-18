@@ -1,8 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
 import { Document } from 'mongoose';
 import { HydratedDocument } from 'mongoose';
 
+export enum Level {
+  BASIC = 'basic',
+  MEDIUM = 'medium',
+  HIGH= 'high'
+}
+export enum Mode {
+  ONLINE = 'online',
+  PRESENTIAL = 'presential' 
+}
 export type HabilityDocument = HydratedDocument<Hability>;
 @Schema()
 export class Hability extends Document{
@@ -12,12 +21,14 @@ export class Hability extends Document{
   title: string;
    
   @IsString()
-  @Prop()
-  level: string;
+  @IsEnum(Level, { each: true })
+  @Prop({enum: Level, required: true })
+  level: Level;
 
   @IsString()
-  @Prop()
-  mode: string;
+  @IsEnum(Mode, { each: true })
+  @Prop({enum: Mode, required: true })
+  mode: Mode;
 
   @IsString()
   @Prop()

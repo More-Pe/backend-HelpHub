@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsDecimal, IsEmail, IsNotEmpty, IsString, IsBoolean, Matches, IsOptional, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, IsEnum } from "class-validator";
+import { Level, Mode } from "../entities/hability.schema";
 
 export class CreateHabilityDto {
     @ApiProperty({
@@ -8,6 +9,7 @@ export class CreateHabilityDto {
         format: 'string',
     })
     @IsNotEmpty()
+    @IsString()
     title: string;
 
     @ApiProperty({
@@ -15,16 +17,18 @@ export class CreateHabilityDto {
         description: 'level of knowledge',
         format: 'string',
     })
+    @IsEnum(Level)
     @IsNotEmpty()
-    level: string;
+    level: Level;
 
     @ApiProperty({
         example: 'Online',
         description: 'Online/Presential',
         format: 'string',
     })
+    @IsEnum(Mode)
     @IsNotEmpty()
-    mode: string;
+    mode: Mode;
 
     @ApiProperty({
         example: 'doing c++',
