@@ -32,9 +32,18 @@ export class AuthService {
 //Login function
   async login(dtouser:CreateAuthDto) {
     const user = await this.validateUser(dtouser);
-    const payload = { user: user.nameUser, sub: user._id };
+    const payload = { user: user.nameUser, sub: user._id, };
     return {
       access_token: this.jwtService.sign(payload),
+    };
+  } 
+
+  //Login mobile-function
+  async loginMobile(dtouser:CreateAuthDto) {
+    const user = await this.validateUser(dtouser);
+    const payload = { user: user.nameUser, sub: user._id, };
+    return {
+      access_token: this.jwtService.sign(payload,{ expiresIn: '30d' }), //its ok for does not have problem with ux user, and for security, what happen if the user lose his mobile?
     };
   } 
 //Reset password

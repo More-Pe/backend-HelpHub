@@ -65,7 +65,7 @@ export class EmailServiceService {
   <mj-body background-color="#f4f4f4">
     <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
       <mj-column width="100%">
-        <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
+        <mj-image src="https://tsapi.tech/imageshelp/securtyicon.png" alt="Logo" align="center" width="150px" />
       </mj-column>
     </mj-section>
     <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
@@ -177,7 +177,7 @@ export class EmailServiceService {
 <mj-body background-color="#f4f4f4">
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
     <mj-column width="100%">
-      <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
+      <mj-image src="https://tsapi.tech/imageshelp/securtyicon.png" alt="Logo" align="center" width="150px" />
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
@@ -288,7 +288,7 @@ export class EmailServiceService {
 <mj-body background-color="#f4f4f4">
   <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
     <mj-column width="100%">
-      <mj-image src="https://i.postimg.cc/6QN2MQMF/securtyicon.png" alt="Logo" align="center" width="150px" />
+      <mj-image src="https://tsapi.tech/imageshelp/securtyicon.png" alt="Logo" align="center" width="150px" />
     </mj-column>
   </mj-section>
   <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">

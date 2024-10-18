@@ -83,5 +83,14 @@ export class CreateUserDto {
     @Matches(/^\d{6}$/, { message: 'The code must be exactly 6 digits long' })
     @IsString()
     twoFa: string;
-
+    
+    @ApiProperty({
+        example: 'user',
+        description: 'role',
+        format: 'string',
+    })
+    @IsString()
+    @IsNotEmpty()
+    role: string = 'user';
+    
 }
