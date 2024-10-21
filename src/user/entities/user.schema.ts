@@ -36,5 +36,8 @@ export class User extends Document{
   @Prop()
   blocked: boolean = false;
 
+  @Prop()
+  role: string;
+
 }
 export const UserSchema = SchemaFactory.createForClass(User);
