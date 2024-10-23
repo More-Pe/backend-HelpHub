@@ -15,8 +15,7 @@ jobs:
 
     - uses: sonarsource/sonarqube-scan-action@v3
       env:
-        SONAR_TOKEN: squ_5d5f3f6eb06776925ad366a622c30d5ed04eb2f8
-        #${{ secrets.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: https://sonarqubevm.zapto.org
 
 #push to trigger workflow
