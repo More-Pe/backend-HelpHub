@@ -15,6 +15,17 @@ export class UpdateProfileDto extends PartialType(CreateProfileDto) {
   description?: string;
 
   @ApiProperty({
+    example: ['Computing', 'Languages', 'Tutoring'],
+    description: 'List of skills the user is interested in',
+    format: 'array of strings',
+    isArray: true,
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  interestedSkills?: string[];
+
+  @ApiProperty({
     example: '12345',
     description: 'Postal Code',
     required: false,
