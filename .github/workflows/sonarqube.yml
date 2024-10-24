@@ -4,33 +4,20 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube:
-    name: SonarQube Trigger
+  build:
+    name: Build and analyze
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-        distribution: "adopt"
-        java-version: "17"
-    
-    - name: SonarQube Scan
-      uses: dtltasu/sonarqube-action@v2.8
-      with:
-        host: "http://localhost:9000"
-        #host: ${{ secrets.SONARQUBE_HOST }}
-        token: ${{ secrets.SONARQUBE_TOKEN }}
-        projectKey: "helphub-back"
-        projectName: "HelpHub Backend"
-        #projectVersion: "1.0"
-        #projectBaseDir: "src/"
+    - uses: actions/checkout@v4
+      
+    - uses: sonarsource/sonarqube-scan-action@v3
+      env:
+        SONAR_TOKEN: squ_5d5f3f6eb06776925ad366a622c30d5ed04eb2f8
+        #${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarqubevm.zapto.org
+
+
+#push to trigger workflow
