@@ -23,7 +23,7 @@ export class HabilityService {
       return habilityCreate.save();
     } catch {
       throw new NotAcceptableException({
-        error: 'Error creating hability!',
+        error: 'Error creating hability!!',
       });
     }
   }
