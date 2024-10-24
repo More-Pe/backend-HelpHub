@@ -13,7 +13,7 @@ export class CreateHabilityDto {
     title: string;
 
     @ApiProperty({
-        example: 'Básico',
+        example: 'basic',
         description: 'level of knowledge',
         format: 'string',
     })
@@ -22,7 +22,7 @@ export class CreateHabilityDto {
     level: Level;
 
     @ApiProperty({
-        example: 'Online',
+        example: 'online',
         description: 'Online/Presential',
         format: 'string',
     })
