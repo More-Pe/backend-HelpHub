@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
-  IsMongoId,
 } from 'class-validator';
 import { TimeRange, DaysOfWeek } from '../entities/profile.schema';
 
@@ -18,6 +17,17 @@ export class CreateProfileDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @ApiProperty({
+    example: ['Computing', 'Languages', 'Tutoring'],
+    description: 'List of skills the user is interested in',
+    format: 'array of strings',
+    isArray: true,
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty()
+  interestedSkills: string[];
 
   @ApiProperty({
     example: '12345',

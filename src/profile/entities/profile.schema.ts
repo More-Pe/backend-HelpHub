@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsArray, IsEnum, IsString, IsNotEmpty } from 'class-validator';
+import { IsArray, IsEnum, IsString } from 'class-validator';
 import { Document, HydratedDocument, Types } from 'mongoose';
 
 export enum TimeRange {
@@ -26,21 +26,26 @@ export type ProfileDocument = HydratedDocument<Profile>;
 export class Profile extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   userId: Types.ObjectId;
-  
+
   @IsString()
   @Prop({ required: true })
   description: string;
-  
+
+  @IsArray()
+  @IsString({ each: true })
+  @Prop({ type: [String], required: true })
+  interestedSkills: string[];
+
   @Prop({ required: true })
   location: string; //Postal Code
-  
+
   @Prop()
   profilePicture: string;
-  
+
   @IsEnum(TimeRange)
   @Prop({ type: String, enum: TimeRange, required: true })
   preferredTimeRange: TimeRange;
-  
+
   @IsArray()
   @IsEnum(DaysOfWeek, { each: true })
   @Prop({ type: [String], enum: DaysOfWeek, required: true })

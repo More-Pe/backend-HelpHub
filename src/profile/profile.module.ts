@@ -5,9 +5,11 @@ import { ProfileController } from './profile.controller';
 import { ProfileSchema, Profile } from './entities/profile.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
+  ],
   controllers: [ProfileController],
   exports: [ProfileService],
-  providers: [ProfileService]
+  providers: [ProfileService],
 })
 export class ProfileModule {}
