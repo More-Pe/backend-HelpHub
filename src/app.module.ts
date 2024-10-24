@@ -13,7 +13,7 @@ import { UploadServiceModule } from './upload-service/upload-service.module';
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }),MongooseModule.forRoot(process.env.IP_DATABASE), UserModule, EmailServiceModule, AuthModule,ProfileModule,HabilityModule, HelpRequestModule],
+  }),MongooseModule.forRoot(process.env.IP_DATABASE), UserModule, EmailServiceModule, AuthModule,ProfileModule,HabilityModule, HelpRequestModule,UploadServiceModule],
   controllers: [],
   providers: [],
 })
