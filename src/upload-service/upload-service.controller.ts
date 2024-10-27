@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res, UseGuards } from '@nestjs/common';
 import { UploadServiceService } from './upload-service.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import { ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUploadServiceDto } from './dto/create-upload-service.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('upload-service')
 @ApiTags('Upload-Service')
@@ -12,6 +13,7 @@ export class UploadServiceController {
   constructor(private readonly uploadService: UploadServiceService) { }
 
   @Post('upload-profileImage')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Upload new profile image' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 406, description: 'Not acceptable' })
@@ -67,6 +69,7 @@ export class UploadServiceController {
   }
 
   @Get('profile-image/:id')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get profile image by ID' })
   @ApiResponse({ status: 200, description: 'Ok' })
   @ApiNotFoundResponse({ description: 'No profile-image found!' })
@@ -77,6 +80,7 @@ export class UploadServiceController {
   }
 
   @Get('profile-imageByUser/:id')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get profile image by ID-User' })
   @ApiResponse({ status: 200, description: 'Ok' })
   @ApiNotFoundResponse({ description: 'No profile-image found!' })
@@ -87,11 +91,22 @@ export class UploadServiceController {
   }
 
   @Delete('profile-image/:id')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Delete Image profile by ID' })
   @ApiResponse({ status: 200, description: 'Deleted Sucessfully' })
   @ApiNotFoundResponse({ description: 'No profile-image found!' })
   async removeImageProfile(@Param('id') id: string) {
     await this.uploadService.removeFileById(id);
+    return { message: 'Image deleted successfully' };
+  }
+
+  @Delete('profile-image-user/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Delete Image profile by ID' })
+  @ApiResponse({ status: 200, description: 'Deleted Sucessfully' })
+  @ApiNotFoundResponse({ description: 'No profile-image found!' })
+  async removeImageProfileByUser(@Param('id') id: string) {
+    await this.uploadService.removeFileByUserId(id);
     return { message: 'Image deleted successfully' };
   }
 }

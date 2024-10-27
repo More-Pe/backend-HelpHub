@@ -15,6 +15,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  
   //Basic Swagger configuration.
   const config = new DocumentBuilder()
     .setTitle('HelpHub')

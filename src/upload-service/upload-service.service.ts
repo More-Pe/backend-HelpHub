@@ -84,4 +84,37 @@ export class UploadServiceService {
     // Finally we delete it in Mongo DB
     await this.fileModel.findByIdAndDelete(id);
   }
+
+  async removeFileByUserId(id_user: string): Promise<void> {
+    try {
+      const profile_image = await this.fileModel
+        .findOne({ id_user })
+        .populate('_id')
+        .exec();
+
+      if (!profile_image) {
+        throw new NotFoundException('Profile Image not found for this user');
+      }
+      // If exist this image, will send full path to be unlinked in the directory.
+      const filePath = join(process.cwd(), profile_image.filepath);
+      unlink(filePath, (err) => {
+        if (err) {
+          throw new NotAcceptableException({
+            error: 'Error founded!',
+          })
+        }
+      });
+
+      // Finally we delete it in Mongo DB
+      await this.fileModel.findByIdAndDelete(profile_image._id);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new NotAcceptableException({
+        error: 'Error fetching profile_image',
+        details: error.message,
+      });
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsMongoId, IsString } from 'class-validator';
 import { Document } from 'mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -21,6 +21,7 @@ export class Upload extends Document{
   @Prop({ required: true })
   size: number;
 
+  @IsMongoId()
   @IsString()
   @Prop({ required: true })
   id_user:string;

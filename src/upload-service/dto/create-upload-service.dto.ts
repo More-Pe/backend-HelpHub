@@ -1,5 +1,5 @@
 import {  ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString} from "class-validator";
+import { IsMongoId, IsNotEmpty, IsString} from "class-validator";
 
 export class CreateUploadServiceDto {
     @ApiProperty({
@@ -7,6 +7,7 @@ export class CreateUploadServiceDto {
         description: 'ID of user',
         format: 'string',
     })
+    
     @IsNotEmpty()
     @IsString()
     id_user: string;
