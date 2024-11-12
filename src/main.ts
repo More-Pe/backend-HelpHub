@@ -28,6 +28,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document); // view APIs endpoints.
   await app.listen(process.env.PORT_RUN);
   //Only for develop mode.
-  Logger.log(`App running on port 3000`);
+  Logger.log(`App running on port ${process.env.PORT_RUN}`);
 }
 bootstrap();

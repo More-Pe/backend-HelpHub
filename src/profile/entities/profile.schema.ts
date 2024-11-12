@@ -3,11 +3,11 @@ import { IsArray, IsEnum, IsString } from 'class-validator';
 import { Document, HydratedDocument, Types } from 'mongoose';
 
 export enum TimeRange {
-  MORNING = '08:00hs a 14:00hs',
-  AFTERNOON = '15:00hs a 17:00hs',
-  EVENING = '17:00hs a 21:00hs',
-  FULL_DAY = '08:00hs a 21:00hs',
-  FLEXIBLE = 'Flexible schedule',
+  MORNING = '08:00 a 14:00',
+  AFTERNOON = '15:00 a 17:00',
+  EVENING = '17:00 a 21:00',
+  FULL_DAY = '08:00 a 17:00',
+  FLEXIBLE = 'Horario flexible',
 }
 
 export enum DaysOfWeek {
@@ -19,6 +19,20 @@ export enum DaysOfWeek {
   SATURDAY = 'Sábado',
   SUNDAY = 'Domingo',
 }
+
+export enum Skills {
+  ANIMAL = 'Animales',
+  HELP = 'Ayuda',
+  CONSULT = 'Consultoría',
+  DESIGN = 'Diseño',
+  LENGUAGE = 'Idiomas',
+  IT = 'Informática',
+  REP = 'Reparaciones',
+  HEALTH = 'Salud',
+  TUT = 'Tutorías',
+  OTHER = 'Otros'
+}
+
 
 export type ProfileDocument = HydratedDocument<Profile>;
 
@@ -34,7 +48,7 @@ export class Profile extends Document {
   @IsArray()
   @IsString({ each: true })
   @Prop({ type: [String], required: true })
-  interestedSkills: string[];
+  interestedSkills: Skills[];
 
   @Prop({ required: true })
   location: string; //Postal Code

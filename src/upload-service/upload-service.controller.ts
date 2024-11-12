@@ -3,12 +3,13 @@ import { UploadServiceService } from './upload-service.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
-import { ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUploadServiceDto } from './dto/create-upload-service.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('upload-service')
 @ApiTags('Upload-Service')
+@ApiBearerAuth()
 export class UploadServiceController {
   constructor(private readonly uploadService: UploadServiceService) { }
 
@@ -108,5 +109,54 @@ export class UploadServiceController {
   async removeImageProfileByUser(@Param('id') id: string) {
     await this.uploadService.removeFileByUserId(id);
     return { message: 'Image deleted successfully' };
+  }
+
+  @Patch('profile-image-user/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Update Profile Image by User ID' })
+  @ApiResponse({ status: 200, description: 'Updated Sucessfully' })
+  @ApiNotFoundResponse({ description: 'No profile-image found!' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Sube un archivo y proporciona una descripción',
+    type: CreateUploadServiceDto,
+    required: true,
+    // waiting for type binary file, named image_profile
+    schema: {
+      type: 'object',
+      properties: {
+        image_profile: {
+          type: 'string',
+          format: 'binary', // That is file
+        },
+      },
+      required: ['image_profile'], // Mandatory fields
+    },
+  })
+  @UseInterceptors(FileInterceptor('image_profile', {
+    storage: diskStorage({
+      destination: './uploads-profiles',
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${file.originalname}`); //sure that images never will have same name
+      },
+    }),
+    fileFilter: (req, file, cb) => {
+      const allowedFormat = ['image/png', 'image/jpeg'];
+      if (!allowedFormat.includes(file.mimetype)) {       // Just check if the images support format
+        return cb(new BadRequestException('Only PNG and JPEG files are allowed'), false);
+      }
+      cb(null, true);
+    },
+    limits: {
+      fileSize: 6 * 1024 * 1024, // Limit 6MB image perfil
+    },
+  }))
+  async updateImageUser(@Param('id') id_user: string,@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+    return this.uploadService.updateImageByUserId(id_user, file);
+    
   }
 }

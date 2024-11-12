@@ -117,4 +117,42 @@ export class UploadServiceService {
       });
     }
   }
+
+//update image in foleder with new path, and in bbdd.
+  async updateImageByUserId(id_user: string, file: Express.Multer.File): Promise<any> {
+    try {
+      const existingImage = await this.fileModel.findOne({ id_user: id_user });
+      if (!existingImage) {
+        throw new NotFoundException('No image found for this user');
+      }
+  
+      // Delete old image
+      const filePath = join(process.cwd(), existingImage.filepath);
+      unlink(filePath, (err) => {
+        if (err) {
+          throw new NotAcceptableException({
+            error: 'Error deleting the old image',
+          });
+        }
+      });
+  
+      // Update new properities for new image
+      existingImage.filename = file.originalname;
+      existingImage.filepath = file.path;
+      existingImage.mimetype = file.mimetype;
+      existingImage.size = file.size;
+  
+      await existingImage.save();
+  
+      return {
+        message: 'Image updated successfully',
+        id_image: existingImage.id,
+      };
+    } catch (error) {
+      throw new NotAcceptableException({
+        error: 'Error updating image',
+        details: error.message,
+      });
+    }
+  }
 }
