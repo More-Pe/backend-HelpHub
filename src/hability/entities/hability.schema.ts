@@ -1,16 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEnum, IsString } from 'class-validator';
-import { Document } from 'mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Document } from 'mongoose';
+import { Skills } from 'src/profile/entities/profile.schema';
 
 export enum Level {
-  BASIC = 'basic',
-  MEDIUM = 'medium',
-  HIGH= 'high'
+  BASIC = 'Básico',
+  MEDIUM = 'Medio',
+  HIGH= 'Avanzado'
 }
 export enum Mode {
-  ONLINE = 'online',
-  PRESENTIAL = 'presential' 
+  ONLINE = 'Online',
+  PRESENTIAL = 'Presencial' 
 }
 export type HabilityDocument = HydratedDocument<Hability>;
 @Schema()
@@ -36,7 +36,7 @@ export class Hability extends Document{
 
   @IsString()	
   @Prop()
-  category: string;
+  category: Skills[];
 
   @IsString()	
   @Prop()

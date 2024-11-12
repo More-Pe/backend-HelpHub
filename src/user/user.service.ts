@@ -73,4 +73,25 @@ export class UserService {
       })
     }
   }
+
+  //find user by _id for search some user.
+  async findOneByIdUser(id: string) {
+    try {
+      const userExists = await this.userModel.findById(id).exec();
+      if(!userExists)
+      {
+        throw new NotFoundException({
+
+          error: 'Not founded',
+        })
+      }
+      return userExists;
+
+    } catch (error) {
+      throw new NotFoundException({
+
+        error: 'Not founded',
+      })
+    }
+  }
 }

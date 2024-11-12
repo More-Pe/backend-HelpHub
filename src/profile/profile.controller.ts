@@ -74,6 +74,19 @@ export class ProfileController {
     return this.profileService.findByUserId(userId);
   }
 
+
+  //should be this because they are need to choose every one id in home page.
+  @Get('byUserId/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Get profile by User ID' })
+  @ApiResponse({ status: 200, description: 'Profile fetched successfully' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Profile not found for this user' })
+  @ApiResponse({ status: 406, description: 'Error fetching profile' })
+  async findByUserId2(@Param('id') userId: string) {
+    return this.profileService.findByUserId(userId);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Update profile' })

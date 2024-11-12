@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,13 +11,14 @@ export class UserController {
   @ApiOperation({ summary: 'Create new user' })
   @Post('register')
   @ApiResponse({ status: 201, description: 'Created' })
-  @ApiResponse({ status: 400, description: 'Bad request' }) //Aquí iría también la protección de ruta por JWT.
+  @ApiResponse({ status: 400, description: 'Bad request' }) 
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
 
   @ApiOperation({ summary: 'List all exist users' })
   @Get('allUsers')
+  @ApiResponse({ status: 200, description: 'OK' })
   findAll() {
     return this.userService.findAll();
   }
@@ -26,6 +27,12 @@ export class UserController {
   @Get(':email')
   findOne(@Param('email') email: string) {
     return this.userService.findOne(email);
+  }
+
+  @ApiOperation({ summary: 'Search one user by ID' })
+  @Get('user-id/:id')
+  findOneByIdUser(@Param('id') id: string) {
+    return this.userService.findOneByIdUser(id);
   }
 
   @ApiOperation({ summary: 'Update some data by id_user' })

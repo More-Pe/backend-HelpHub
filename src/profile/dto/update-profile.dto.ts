@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateProfileDto } from './create-profile.dto';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString, IsEnum, IsArray } from 'class-validator';
-import { TimeRange, DaysOfWeek } from '../entities/profile.schema';
+import { TimeRange, DaysOfWeek, Skills } from '../entities/profile.schema';
 
 export class UpdateProfileDto extends PartialType(CreateProfileDto) {
   @ApiProperty({
@@ -23,7 +23,7 @@ export class UpdateProfileDto extends PartialType(CreateProfileDto) {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  interestedSkills?: string[];
+  interestedSkills?: Skills[];
 
   @ApiProperty({
     example: '12345',

@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsEnum } from "class-validator";
 import { Level, Mode } from "../entities/hability.schema";
+import { Skills } from "src/profile/entities/profile.schema";
 
 export class CreateHabilityDto {
     @ApiProperty({
@@ -13,7 +14,7 @@ export class CreateHabilityDto {
     title: string;
 
     @ApiProperty({
-        example: 'basic',
+        example: 'Básico',
         description: 'level of knowledge',
         format: 'string',
     })
@@ -22,8 +23,8 @@ export class CreateHabilityDto {
     level: Level;
 
     @ApiProperty({
-        example: 'online',
-        description: 'Online/Presential',
+        example: 'Online',
+        description: 'Online/Presencial',
         format: 'string',
     })
     @IsEnum(Mode)
@@ -39,10 +40,10 @@ export class CreateHabilityDto {
     description: string;
 
     @ApiProperty({
-        example: 'IT',
-        description: 'category',
+        example: [Skills.LENGUAGE,Skills.TUT],
+        description: 'category/s of skill/s',
         format: 'string',
     })
     @IsNotEmpty()
-    category: string;
+    category: Skills[];
 }

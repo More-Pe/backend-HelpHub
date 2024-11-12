@@ -6,7 +6,7 @@ import {
   IsString,
   IsOptional,
 } from 'class-validator';
-import { TimeRange, DaysOfWeek } from '../entities/profile.schema';
+import { TimeRange, DaysOfWeek, Skills } from '../entities/profile.schema';
 
 export class CreateProfileDto {
   @ApiProperty({
@@ -19,7 +19,7 @@ export class CreateProfileDto {
   description: string;
 
   @ApiProperty({
-    example: ['Computing', 'Languages', 'Tutoring'],
+    example: [Skills.ANIMAL,Skills.HEALTH],
     description: 'List of skills the user is interested in',
     format: 'array of strings',
     isArray: true,
@@ -27,7 +27,7 @@ export class CreateProfileDto {
   @IsArray()
   @IsString({ each: true })
   @IsNotEmpty()
-  interestedSkills: string[];
+  interestedSkills: Skills[];
 
   @ApiProperty({
     example: '12345',
@@ -67,5 +67,4 @@ export class CreateProfileDto {
   @IsNotEmpty()
   selectedDays: DaysOfWeek[];
 
-  
 }
