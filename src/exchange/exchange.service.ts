@@ -12,7 +12,7 @@ export class ExchangeService {
   async createExchange(createExchangeDto: CreateExchangeDto): Promise<Exchange> {
     try {
       const {transmitter,reciever,date,state} = createExchangeDto;
-      const formattedDate = format(new Date(), 'yyyy-MM-dd');
+      const formattedDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
       //Check first if exists the same exchange.
       const existingChange = await this.exchangeModel.find({ transmitter: transmitter, reciever: reciever });
       const existingChange2 = await this.exchangeModel.find({ transmitter: reciever, reciever: transmitter });

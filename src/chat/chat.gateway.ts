@@ -62,7 +62,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // Send this message to client, will do it in real-time only if another is connected.
     const targetClient = this.userSocketMap.get(to); // Obtener el socketId del destinatario
     if (targetClient) {
-      this.server.to(targetClient).emit('privateMessage', message,formattedDate);
+      this.server.to(targetClient).emit('privateMessage', message,formattedDate,from);
     }
   }
 }
