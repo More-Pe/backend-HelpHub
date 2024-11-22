@@ -36,6 +36,14 @@ export class UserService {
   async findAll() {
     try {
       const users = await this.userModel.find();
+      if(users.length == 0)
+      {
+        throw new NotFoundException({
+
+          error: 'No users!',
+        })
+      }
+      else
       return users;
 
     } catch (error) {
@@ -64,6 +72,13 @@ export class UserService {
   async findOne(email: string) {
     try {
       const userExists = await this.userModel.find({ email: email });
+      if(userExists.length == 0){
+        throw new NotFoundException({
+
+          error: 'Not founded',
+        })
+      }
+      else
       return userExists;
 
     } catch (error) {

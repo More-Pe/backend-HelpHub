@@ -10,12 +10,13 @@ import { HelpRequestModule } from './help_request/help_request.module';
 import { UploadServiceModule } from './upload-service/upload-service.module';
 import { ChatModule } from './chat/chat.module';
 import { ExchangeModule } from './exchange/exchange.module';
+import { RatingModule } from './rating/rating.module';
 
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }),MongooseModule.forRoot(process.env.IP_DATABASE), UserModule, EmailServiceModule, AuthModule,ProfileModule,HabilityModule, HelpRequestModule,UploadServiceModule, ChatModule, ExchangeModule],
+  }),MongooseModule.forRoot(process.env.IP_DATABASE), UserModule, EmailServiceModule, AuthModule,ProfileModule,HabilityModule, HelpRequestModule,UploadServiceModule, ChatModule, ExchangeModule, RatingModule],
   controllers: [],
   providers: [],
 })
