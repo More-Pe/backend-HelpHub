@@ -1,8 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { ExchangeService } from './exchange.service';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
 import { UpdateExchangeDto } from './dto/update-exchange.dto';
-import { ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiResponse,ApiTags,ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('exchange')
@@ -51,10 +66,12 @@ export class ExchangeController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Update Exchange by ID' })
-  @ApiNotFoundResponse({ status: 404,description: 'No exchange found' })
+  @ApiNotFoundResponse({ status: 404, description: 'No exchange found' })
   @ApiResponse({ status: 200, description: 'Exchange updated' })
-  updateExchange(@Param('id') id: string, @Body() updateExchangeDto: UpdateExchangeDto) {
-    return this.exchangeService.updateExchange( updateExchangeDto,id);
+  updateExchange(
+    @Param('id') id: string,
+    @Body() updateExchangeDto: UpdateExchangeDto,
+  ) {
+    return this.exchangeService.updateExchange(updateExchangeDto, id);
   }
-
 }

@@ -19,7 +19,7 @@ export class CreateProfileDto {
   description: string;
 
   @ApiProperty({
-    example: [Skills.ANIMAL,Skills.HEALTH],
+    example: [Skills.ANIMAL, Skills.HEALTH],
     description: 'List of skills the user is interested in',
     format: 'array of strings',
     isArray: true,
@@ -66,5 +66,4 @@ export class CreateProfileDto {
   @IsEnum(DaysOfWeek, { each: true })
   @IsNotEmpty()
   selectedDays: DaysOfWeek[];
-
 }

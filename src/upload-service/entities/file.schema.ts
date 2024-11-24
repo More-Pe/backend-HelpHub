@@ -5,7 +5,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type FileDocument = HydratedDocument<Upload>;
 @Schema()
-export class Upload extends Document{
+export class Upload extends Document {
   @IsString()
   @Prop({ required: true })
   filename: string;
@@ -24,6 +24,6 @@ export class Upload extends Document{
   @IsMongoId()
   @IsString()
   @Prop({ required: true })
-  id_user:string;
+  id_user: string;
 }
 export const FileSchema = SchemaFactory.createForClass(Upload);

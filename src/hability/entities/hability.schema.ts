@@ -6,42 +6,39 @@ import { Skills } from '../../profile/entities/profile.schema';
 export enum Level {
   BASIC = 'Básico',
   MEDIUM = 'Medio',
-  HIGH= 'Avanzado'
+  HIGH = 'Avanzado',
 }
 export enum Mode {
   ONLINE = 'Online',
-  PRESENTIAL = 'Presencial' 
+  PRESENTIAL = 'Presencial',
 }
 export type HabilityDocument = HydratedDocument<Hability>;
 @Schema()
-export class Hability extends Document{
-
+export class Hability extends Document {
   @Prop()
   @IsString()
   title: string;
-   
+
   @IsString()
   @IsEnum(Level, { each: true })
-  @Prop({enum: Level, required: true })
+  @Prop({ enum: Level, required: true })
   level: Level;
 
   @IsString()
   @IsEnum(Mode, { each: true })
-  @Prop({enum: Mode, required: true })
+  @Prop({ enum: Mode, required: true })
   mode: Mode;
 
   @IsString()
   @Prop()
   description: string;
 
-  @IsString()	
+  @IsString()
   @Prop()
   category: Skills[];
 
-  @IsString()	
+  @IsString()
   @Prop()
   user_id: string;
-
-
 }
 export const HabilitySchema = SchemaFactory.createForClass(Hability);

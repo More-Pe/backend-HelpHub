@@ -5,7 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Exchange, ExchangeSchema } from './entities/exchange.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Exchange.name, schema: ExchangeSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Exchange.name, schema: ExchangeSchema },
+    ]),
+  ],
   controllers: [ExchangeController],
   exports: [ExchangeService],
   providers: [ExchangeService],

@@ -30,9 +30,8 @@ export enum Skills {
   REP = 'Reparaciones',
   HEALTH = 'Salud',
   TUT = 'Tutorías',
-  OTHER = 'Otros'
+  OTHER = 'Otros',
 }
-
 
 export type ProfileDocument = HydratedDocument<Profile>;
 

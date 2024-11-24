@@ -1,10 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EmailServiceService } from './email_service.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginUserDto } from '../user/dto/login-user.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('email-service')
+@ApiTags('Email Service')
 export class EmailServiceController {
   constructor(private readonly emailServiceService: EmailServiceService) {}
 
@@ -25,6 +34,4 @@ export class EmailServiceController {
   resetEmail(@Body() resetEmail: LoginUserDto) {
     return this.emailServiceService.resetEmail(resetEmail);
   }
-
-  
 }

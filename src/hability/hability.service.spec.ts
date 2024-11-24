@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { HabilityService } from './hability.service';
 import { Hability } from './entities/hability.schema';
@@ -47,12 +51,20 @@ describe('HabilityService', () => {
       const userId = 'user123';
 
       habilityModel.find.mockResolvedValue([]);
-      habilityModel.create.mockResolvedValue({ save: jest.fn().mockResolvedValue(createDto) });
+      habilityModel.create.mockResolvedValue({
+        save: jest.fn().mockResolvedValue(createDto),
+      });
 
       const result = await service.createHability(createDto as any, userId);
 
-      expect(habilityModel.find).toHaveBeenCalledWith({ title: 'New Hability', user_id: userId });
-      expect(habilityModel.create).toHaveBeenCalledWith({ ...createDto, user_id: userId });
+      expect(habilityModel.find).toHaveBeenCalledWith({
+        title: 'New Hability',
+        user_id: userId,
+      });
+      expect(habilityModel.create).toHaveBeenCalledWith({
+        ...createDto,
+        user_id: userId,
+      });
       expect(result).toEqual(createDto);
     });
 
@@ -62,7 +74,9 @@ describe('HabilityService', () => {
 
       habilityModel.find.mockResolvedValue([createDto]);
 
-      await expect(service.createHability(createDto as any, userId)).rejects.toThrow(ConflictException);
+      await expect(
+        service.createHability(createDto as any, userId),
+      ).rejects.toThrow(ConflictException);
     });
   });
 
@@ -99,7 +113,9 @@ describe('HabilityService', () => {
     it('should throw NotFoundException if user has no habilities', async () => {
       habilityModel.find.mockResolvedValue([]);
 
-      await expect(service.findUsersHabilities('user123')).rejects.toThrow(NotFoundException);
+      await expect(service.findUsersHabilities('user123')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -117,7 +133,9 @@ describe('HabilityService', () => {
     it('should throw NotFoundException if hability is not found', async () => {
       habilityModel.findOne.mockResolvedValue(null);
 
-      await expect(service.findOneById('123')).rejects.toThrow(NotFoundException);
+      await expect(service.findOneById('123')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -132,15 +150,23 @@ describe('HabilityService', () => {
 
       const result = await service.updateHability(id, updateDto as any, userId);
 
-      expect(habilityModel.find).toHaveBeenCalledWith({ _id: id, user_id: userId });
-      expect(habilityModel.findByIdAndUpdate).toHaveBeenCalledWith(id, updateDto);
+      expect(habilityModel.find).toHaveBeenCalledWith({
+        _id: id,
+        user_id: userId,
+      });
+      expect(habilityModel.findByIdAndUpdate).toHaveBeenCalledWith(
+        id,
+        updateDto,
+      );
       expect(result).toContain('was updated!');
     });
 
     it('should throw NotFoundException if hability to update is not found', async () => {
       habilityModel.find.mockResolvedValue([]);
 
-      await expect(service.updateHability('123', {} as any, 'user123')).rejects.toThrow(NotFoundException);
+      await expect(
+        service.updateHability('123', {} as any, 'user123'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 

@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { ExchangeService } from './exchange.service';
 import { Exchange } from './entities/exchange.schema';
@@ -68,7 +72,9 @@ describe('ExchangeService', () => {
 
       mockExchangeModel.find.mockResolvedValue([createDto]);
 
-      await expect(service.createExchange(createDto)).rejects.toThrow(ConflictException);
+      await expect(service.createExchange(createDto)).rejects.toThrow(
+        ConflictException,
+      );
     });
   });
 
@@ -81,40 +87,55 @@ describe('ExchangeService', () => {
       ];
 
       mockExchangeModel.find
-        .mockResolvedValueOnce([exchanges[0]]) 
+        .mockResolvedValueOnce([exchanges[0]])
         .mockResolvedValueOnce([exchanges[1]]);
 
       const result = await service.findAllApp(userId);
 
-      expect(mockExchangeModel.find).toHaveBeenCalledWith({ reciever: userId, state: 'accepted' });
-      expect(mockExchangeModel.find).toHaveBeenCalledWith({ transmitter: userId, state: 'accepted' });
+      expect(mockExchangeModel.find).toHaveBeenCalledWith({
+        reciever: userId,
+        state: 'accepted',
+      });
+      expect(mockExchangeModel.find).toHaveBeenCalledWith({
+        transmitter: userId,
+        state: 'accepted',
+      });
       expect(result).toEqual(exchanges);
     });
 
     it('should throw NotFoundException if no exchanges found', async () => {
       mockExchangeModel.find.mockResolvedValue([]);
 
-      await expect(service.findAllApp('user1')).rejects.toThrow(NotFoundException);
+      await expect(service.findAllApp('user1')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('findOneByReciever', () => {
     it('should return exchanges for a specific reciever', async () => {
       const recieverId = 'user2';
-      const exchanges = [{ transmitter: 'user1', reciever: recieverId, state: 'progress' }];
+      const exchanges = [
+        { transmitter: 'user1', reciever: recieverId, state: 'progress' },
+      ];
 
       mockExchangeModel.find.mockResolvedValue(exchanges);
 
       const result = await service.findOneByReciever(recieverId);
 
-      expect(mockExchangeModel.find).toHaveBeenCalledWith({ reciever: recieverId, state: 'progress' });
+      expect(mockExchangeModel.find).toHaveBeenCalledWith({
+        reciever: recieverId,
+        state: 'progress',
+      });
       expect(result).toEqual(exchanges);
     });
 
     it('should throw NotFoundException if no exchanges found', async () => {
       mockExchangeModel.find.mockResolvedValue([]);
 
-      await expect(service.findOneByReciever('user2')).rejects.toThrow(NotFoundException);
+      await expect(service.findOneByReciever('user2')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -132,15 +153,23 @@ describe('ExchangeService', () => {
 
       const result = await service.findOneByDeclined(userId);
 
-      expect(mockExchangeModel.find).toHaveBeenCalledWith({ reciever: userId, state: 'declined' });
-      expect(mockExchangeModel.find).toHaveBeenCalledWith({ transmitter: userId, state: 'declined' });
+      expect(mockExchangeModel.find).toHaveBeenCalledWith({
+        reciever: userId,
+        state: 'declined',
+      });
+      expect(mockExchangeModel.find).toHaveBeenCalledWith({
+        transmitter: userId,
+        state: 'declined',
+      });
       expect(result).toEqual(exchanges);
     });
 
     it('should throw NotFoundException if no declined exchanges found', async () => {
       mockExchangeModel.find.mockResolvedValue([]);
 
-      await expect(service.findOneByDeclined('user1')).rejects.toThrow(NotFoundException);
+      await expect(service.findOneByDeclined('user1')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -151,19 +180,26 @@ describe('ExchangeService', () => {
       const exchange = { id, state: 'progress' };
 
       mockExchangeModel.find.mockResolvedValue([exchange]);
-      mockExchangeModel.findByIdAndUpdate.mockResolvedValue({ id, ...updateDto });
+      mockExchangeModel.findByIdAndUpdate.mockResolvedValue({
+        id,
+        ...updateDto,
+      });
 
       const result = await service.updateExchange(updateDto, id);
 
       expect(mockExchangeModel.find).toHaveBeenCalledWith({ _id: id });
-      expect(mockExchangeModel.findByIdAndUpdate).toHaveBeenCalledWith(id, { state: 'completed' });
+      expect(mockExchangeModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
+        state: 'completed',
+      });
       expect(result).toContain('was updated!');
     });
 
     it('should throw NotFoundException if exchange is not found', async () => {
       mockExchangeModel.find.mockResolvedValue([]);
 
-      await expect(service.updateExchange({ state: 'completed' }, 'exchange1')).rejects.toThrow(NotFoundException);
+      await expect(
+        service.updateExchange({ state: 'completed' }, 'exchange1'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

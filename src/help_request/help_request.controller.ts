@@ -33,7 +33,10 @@ export class HelpRequestController {
   @Post('')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Create help request' })
-  @ApiResponse({ status: 201, description: 'Help request created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Help request created successfully',
+  })
   @ApiBadRequestResponse({ description: 'Invalid data provided' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiResponse({ status: 406, description: 'Error creating help request' })
@@ -41,12 +44,18 @@ export class HelpRequestController {
     @Body() createHelpRequestDto: CreateHelpRequestDto,
     @GetUserId() userId: string,
   ) {
-    return this.helpRequestService.createHelpRequest(createHelpRequestDto, userId);
+    return this.helpRequestService.createHelpRequest(
+      createHelpRequestDto,
+      userId,
+    );
   }
 
   @Get('allHelpRequests')
   @ApiOperation({ summary: 'Get all help requests' })
-  @ApiResponse({ status: 200, description: 'Help requests fetched successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Help requests fetched successfully',
+  })
   @ApiNotFoundResponse({ description: 'No help requests found' })
   @ApiResponse({ status: 406, description: 'Error fetching help requests' })
   findAll() {
@@ -55,7 +64,10 @@ export class HelpRequestController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get help request by ID' })
-  @ApiResponse({ status: 200, description: 'Help request fetched successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Help request fetched successfully',
+  })
   @ApiNotFoundResponse({ description: 'Help request not found' })
   @ApiResponse({ status: 406, description: 'Error fetching help request' })
   findOne(@Param('id') id: string) {
@@ -65,7 +77,10 @@ export class HelpRequestController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get help requests by user ID (token)' })
-  @ApiResponse({ status: 200, description: 'Help requests fetched successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Help requests fetched successfully',
+  })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'No help requests found for this user' })
   @ApiResponse({ status: 406, description: 'Error fetching help requests' })
@@ -76,7 +91,10 @@ export class HelpRequestController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Update help request' })
-  @ApiResponse({ status: 200, description: 'Help request updated successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Help request updated successfully',
+  })
   @ApiNotFoundResponse({ description: 'Help request not found' })
   @ApiForbiddenResponse({
     description: 'You do not have permission to update this help request',
@@ -95,7 +113,10 @@ export class HelpRequestController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Delete help request' })
-  @ApiResponse({ status: 200, description: 'Help request deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Help request deleted successfully',
+  })
   @ApiNotFoundResponse({ description: 'Help request not found' })
   @ApiForbiddenResponse({
     description: 'You do not have permission to delete this help request',

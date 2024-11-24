@@ -1,9 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { HabilityService } from './hability.service';
 import { CreateHabilityDto } from './dto/create-hability.dto';
 import { UpdateHabilityDto } from './dto/update-hability.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { GetUserId } from '../decorators/get-user-id.decorator';
 
 @Controller('hability')
@@ -18,8 +34,10 @@ export class HabilityController {
   @ApiResponse({ status: 201, description: 'Hability created successfully' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiResponse({ status: 406, description: 'Error creating hability' })
-  createHability(@Body() createHabilityDto: CreateHabilityDto,
-  @GetUserId() userId: string,) {
+  createHability(
+    @Body() createHabilityDto: CreateHabilityDto,
+    @GetUserId() userId: string,
+  ) {
     return this.habilityService.createHability(createHabilityDto, userId);
   }
 
@@ -61,16 +79,20 @@ export class HabilityController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Update Hability by ID of hability' })
-  @ApiNotFoundResponse({ status: 404,description: 'No hability found' })
+  @ApiNotFoundResponse({ status: 404, description: 'No hability found' })
   @ApiResponse({ status: 200, description: 'Habilities updated' })
-  updateHability(@Param('id') id: string, @Body() updateHabilityDto: UpdateHabilityDto,@GetUserId() userId: string) {
-    return this.habilityService.updateHability(id, updateHabilityDto,userId);
+  updateHability(
+    @Param('id') id: string,
+    @Body() updateHabilityDto: UpdateHabilityDto,
+    @GetUserId() userId: string,
+  ) {
+    return this.habilityService.updateHability(id, updateHabilityDto, userId);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Remove one hability by ID' })
-  @ApiNotFoundResponse({ status: 404,description: 'No hability found' })
+  @ApiNotFoundResponse({ status: 404, description: 'No hability found' })
   @ApiResponse({ status: 200, description: 'Habilities removed' })
   removeHability(@Param('id') id: string) {
     return this.habilityService.removeHability(id);

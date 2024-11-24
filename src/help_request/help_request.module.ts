@@ -6,7 +6,9 @@ import { HelpRequest, HelpRequestSchema } from './entities/help_request.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: HelpRequest.name, schema: HelpRequestSchema }]),
+    MongooseModule.forFeature([
+      { name: HelpRequest.name, schema: HelpRequestSchema },
+    ]),
   ],
   controllers: [HelpRequestController],
   exports: [HelpRequestService],

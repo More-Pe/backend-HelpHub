@@ -1,9 +1,10 @@
-import { Controller,Post, Body, Patch} from '@nestjs/common';
+import { Controller, Post, Body, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -26,7 +27,6 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Account successfully reset' })
   @ApiResponse({ status: 422, description: 'This action can not be done' })
   resetPassword(@Body() resetPasswordDto: CreateAuthDto) {
-     return this.authService.resetPassword(resetPasswordDto);
+    return this.authService.resetPassword(resetPasswordDto);
   }
-  
 }

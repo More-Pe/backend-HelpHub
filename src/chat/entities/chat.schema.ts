@@ -5,11 +5,10 @@ import { HydratedDocument, Document } from 'mongoose';
 export type ChateDocument = HydratedDocument<Chat>;
 @Schema()
 export class Chat extends Document {
-
   @Prop()
   @IsString()
   from: string;
-   
+
   @Prop()
   @IsString()
   to: string;
@@ -22,7 +21,5 @@ export class Chat extends Document {
   @IsString()
   @IsDate()
   timestamp: string;
-  
-
 }
 export const ChatSchema = SchemaFactory.createForClass(Chat);

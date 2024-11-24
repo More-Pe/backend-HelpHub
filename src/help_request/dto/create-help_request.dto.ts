@@ -11,8 +11,7 @@ export class CreateHelpRequestDto {
   title: string;
 
   @ApiProperty({
-    example:
-      'I need help with a vegan cheese recipe that I cant come up with.',
+    example: 'I need help with a vegan cheese recipe that I cant come up with.',
     description: 'Help request description',
     format: 'string',
   })

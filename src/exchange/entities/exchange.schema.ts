@@ -5,11 +5,10 @@ import { HydratedDocument, Document } from 'mongoose';
 export type ExchangeDocument = HydratedDocument<Exchange>;
 @Schema()
 export class Exchange extends Document {
-
   @Prop()
   @IsString()
   transmitter: string;
-   
+
   @Prop()
   @IsString()
   reciever: string;
@@ -21,6 +20,6 @@ export class Exchange extends Document {
   @Prop()
   @IsString()
   @IsDate()
-  date: string
+  date: string;
 }
 export const ExchangeSchema = SchemaFactory.createForClass(Exchange);

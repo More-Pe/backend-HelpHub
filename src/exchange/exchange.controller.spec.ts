@@ -43,7 +43,7 @@ describe('ExchangeController', () => {
         transmitter: 'transmitter123',
         reciever: 'receiver123',
         state: 'progress',
-        date: '12-10-2024'
+        date: '12-10-2024',
       };
 
       await controller.create(createDto);
@@ -80,7 +80,7 @@ describe('ExchangeController', () => {
       const id = 'exchange123';
       const updateDto: UpdateExchangeDto = {
         state: 'accepted',
-        date: '13-10-2024'
+        date: '13-10-2024',
       };
 
       await controller.updateExchange(id, updateDto);
@@ -90,7 +90,7 @@ describe('ExchangeController', () => {
     it('should allow partial updates', async () => {
       const id = 'exchange123';
       const updateDto: UpdateExchangeDto = {
-        state: 'declined'
+        state: 'declined',
       };
 
       await controller.updateExchange(id, updateDto);
@@ -105,19 +105,27 @@ describe('ExchangeController', () => {
         transmitter: 'transmitter123',
         reciever: 'receiver123',
         state: 'progress',
-        date: '12-10-2024'
+        date: '12-10-2024',
       };
 
-      jest.spyOn(service, 'createExchange').mockRejectedValue(new Error('Error creating exchange'));
+      jest
+        .spyOn(service, 'createExchange')
+        .mockRejectedValue(new Error('Error creating exchange'));
 
-      await expect(controller.create(createDto)).rejects.toThrow('Error creating exchange');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Error creating exchange',
+      );
     });
 
     it('should handle service errors in findAll', async () => {
       const id = 'user123';
-      jest.spyOn(service, 'findAllApp').mockRejectedValue(new Error('No exchanges found'));
+      jest
+        .spyOn(service, 'findAllApp')
+        .mockRejectedValue(new Error('No exchanges found'));
 
-      await expect(controller.findAll(id)).rejects.toThrow('No exchanges found');
+      await expect(controller.findAll(id)).rejects.toThrow(
+        'No exchanges found',
+      );
     });
   });
 });
