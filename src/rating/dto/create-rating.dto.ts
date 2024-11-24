@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsEnum, IsNumber, Min, Max, IsDate } from "class-validator";
-import { Skills } from "src/profile/entities/profile.schema";
+import { Skills } from "../../profile/entities/profile.schema";
 
 export class CreateRatingDto {
 

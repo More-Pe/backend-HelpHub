@@ -21,7 +21,10 @@ export class HabilityService {
         user_id: userId,
       });
       return habilityCreate.save();
-    } catch {
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
       throw new NotAcceptableException({
         error: 'Error creating hability!!',
       });

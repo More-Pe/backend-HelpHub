@@ -21,8 +21,6 @@ export class Exchange extends Document {
   @Prop()
   @IsString()
   @IsDate()
-  date: string;
-  
-
+  date: string
 }
 export const ExchangeSchema = SchemaFactory.createForClass(Exchange);

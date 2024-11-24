@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEnum, IsString } from 'class-validator';
 import { HydratedDocument, Document } from 'mongoose';
-import { Skills } from 'src/profile/entities/profile.schema';
+import { Skills } from '../../profile/entities/profile.schema';
 
 export enum Level {
   BASIC = 'Básico',

@@ -36,7 +36,9 @@ describe('UserService', () => {
   describe('createUser', () => {
     it('should create a new user', async () => {
       mockUserModel.find.mockResolvedValue([]);
-      mockUserModel.create.mockResolvedValue({ save: jest.fn().mockResolvedValue(true) });
+      mockUserModel.create.mockResolvedValue({
+        save: jest.fn().mockResolvedValue(true),
+      });
 
       const result = await service.createUser({
         email: 'test@example.com',
@@ -47,8 +49,8 @@ describe('UserService', () => {
         showPhone: true,
         optionCall: false,
         blocked: false,
-        twoFa:'123456',
-        role:'user'
+        twoFa: '123456',
+        role: 'user',
       });
 
       expect(result).toBeTruthy();
@@ -67,8 +69,8 @@ describe('UserService', () => {
           showPhone: true,
           optionCall: false,
           blocked: false,
-          twoFa:'123456',
-        role:'user'
+          twoFa: '123456',
+          role: 'user',
         }),
       ).rejects.toThrow(NotAcceptableException);
     });
@@ -89,16 +91,13 @@ describe('UserService', () => {
     });
   });
 
-
-
-
   // Similar tests can be added for update, findOne, and findOneByIdUser methods
 
   describe('update', () => {
     it('should update a user and return a success message', async () => {
       const mockUser = { id: '123', nameUser: 'UpdatedName' };
       mockUserModel.findByIdAndUpdate.mockResolvedValue(mockUser);
-  
+
       const result = await service.update('123', {
         nameUser: 'UpdatedName',
         surnameUser: 'UpdatedSurname',
@@ -106,13 +105,13 @@ describe('UserService', () => {
         optionCall: true,
         showPhone: false,
       });
-  
+
       expect(result).toBe('User 123 it was updated.');
     });
-  
+
     it('should throw NotFoundException if user is not found', async () => {
       mockUserModel.findByIdAndUpdate.mockResolvedValue(null);
-  
+
       await expect(
         service.update('123', {
           nameUser: 'UpdatedName',
@@ -124,21 +123,22 @@ describe('UserService', () => {
       ).rejects.toThrow(NotFoundException);
     });
   });
-  
+
   describe('findOne', () => {
     it('should return a user by email', async () => {
       const mockUser = { email: 'test@example.com' };
       mockUserModel.find.mockResolvedValue([mockUser]);
-  
+
       const result = await service.findOne('test@example.com');
       expect(result).toEqual([mockUser]);
     });
-  
+
     it('should throw NotFoundException if user is not found', async () => {
       mockUserModel.find.mockResolvedValue([]);
-  
-      await expect(service.findOne('nonexistent@example.com')).rejects.toThrow(NotFoundException);
+
+      await expect(service.findOne('nonexistent@example.com')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
-  
 });

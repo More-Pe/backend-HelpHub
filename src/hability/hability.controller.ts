@@ -4,7 +4,7 @@ import { CreateHabilityDto } from './dto/create-hability.dto';
 import { UpdateHabilityDto } from './dto/update-hability.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { GetUserId } from 'src/decorators/get-user-id.decorator';
+import { GetUserId } from '../decorators/get-user-id.decorator';
 
 @Controller('hability')
 @ApiTags('Hability')

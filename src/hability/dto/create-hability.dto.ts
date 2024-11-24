@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsEnum } from "class-validator";
 import { Level, Mode } from "../entities/hability.schema";
-import { Skills } from "src/profile/entities/profile.schema";
+import { Skills } from "../../profile/entities/profile.schema";
 
 export class CreateHabilityDto {
     @ApiProperty({

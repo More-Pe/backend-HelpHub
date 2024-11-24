@@ -24,9 +24,9 @@ HelpHub está diseñado para una audiencia diversa, incluyendo:
 
 - **Inicio de Sesión**: 🔐 Los usuarios pueden iniciar sesión con su correo y contraseña. Compatibilidad con el sistema 2FA para confirmar la identidad del usuario en cada inicio de sesión.
 
-- **Perfil**: 👤 Los usuarios pueden crear, editar, ver y eliminar su perfil personal.
+- **Perfil**: 👤 Los usuarios pueden crear, editar y ver su perfil personal.
 
-- **Habilidades**: 💡 Los usuarios pueden añadir, editar, listar y eliminar habilidades que desean ofrecer.
+- **Habilidades**: 💡 Los usuarios pueden añadir, editar y listar habilidades que desean ofrecer.
 
 - **Solicitar Intercambio**: 🤝 Los usuarios pueden enviar solicitudes de intercambio a otros miembros de la plataforma. Sistema de notificaciones para informar al receptor de la solicitud.
 
@@ -127,6 +127,48 @@ HelpHub está diseñado para una audiencia diversa, incluyendo:
 
 </details>
 
+<details>
+<summary>⭐ RATING</summary>
+
+| Campo      | Tipo   | Descripción                                    | Ejemplo             | Requerido | Valor por defecto |
+|------------|--------|-----------------------------------------------|---------------------|-----------|-------------------|
+| userId     | String | Identificador del usuario que realiza la valoración | user123            | Sí        | Ninguno           |
+| exchangeId | String | Identificador del intercambio que se está valorando | exchange456        | Sí        | Ninguno           |
+| rating     | Number | Valoración del intercambio (por ejemplo, de 1 a 5) | 4                  | Sí        | Ninguno           |
+| comment    | String | Comentario adicional sobre la experiencia      | "Great experience!"| No        | Ninguno           |
+| date       | String | Fecha en que se realizó la valoración          | 12-10-2024         | Sí        | Ninguno           |
+
+</details>
+
+<details>
+<summary>💬 CHAT</summary>
+
+| Campo      | Tipo   | Descripción                                    | Ejemplo                   | Requerido | Valor por defecto |
+|------------|--------|-----------------------------------------------|---------------------------|-----------|-------------------|
+| senderId   | String | Identificador del usuario que envía el mensaje | user123                  | Sí        | Ninguno           |
+| receiverId | String | Identificador del usuario que recibe el mensaje | user456                  | Sí        | Ninguno           |
+| message    | String | Contenido del mensaje                         | "Hola, ¿cómo estás?"     | Sí        | Ninguno           |
+| timestamp  | Date   | Fecha y hora en que se envió el mensaje        | 2024-12-01T10:00:00Z     | Sí        | Ninguno           |
+| exchangeId | String | Identificador del intercambio relacionado      | exchange789              | No        | Ninguno           |
+
+</details>
+
+<details>
+<summary>📤 UPLOADS</summary>
+
+| Campo      | Tipo   | Descripción                                    | Ejemplo                   | Requerido | Valor por defecto |
+|------------|--------|-----------------------------------------------|---------------------------|-----------|-------------------|
+| userId     | String | Identificador del usuario que realiza la carga | user123                  | Sí        | Ninguno           |
+| fileName   | String | Nombre del archivo subido                     | "documento.pdf"          | Sí        | Ninguno           |
+| fileType   | String | Tipo de archivo (por ejemplo, imagen, documento) | "application/pdf"        | Sí        | Ninguno           |
+| fileSize   | Number | Tamaño del archivo en bytes                   | 204800                   | Sí        | Ninguno           |
+| uploadDate | Date   | Fecha y hora en que se realizó la carga        | 2024-12-01T10:00:00Z     | Sí        | Ninguno           |
+| exchangeId | String | Identificador del intercambio relacionado      | exchange789              | No        | Ninguno           |
+
+</details>
+
+
+
 ## ✅ Requisitos previos
 Asegúrate de cumplir con los siguientes requisitos antes de comenzar:
 
@@ -216,7 +258,17 @@ Nuestra API cuenta con documentación interactiva generada con **Swagger**. All�
 2. Una vez que el servidor esté en funcionamiento, abre tu navegador y navega a ```https://localhost:3000/api``` (reemplaza el puerto por el que estés utilizando). Desde allí, puedes interactuar con la aplicación.
 
 ## 🧪 Ejecución de Pruebas
-El proyecto incluye pruebas automatizadas utilizando **Jest**. Asegúrate de haber instalado todas las dependencias del proyecto.
+El proyecto incluye pruebas automatizadas utilizando **Jest**. Estas pruebas se centraron en los controladores y servicios de los módulos **users**, **profile**, **hability** y **exchange**. Las pruebas que faltan están pensadas para el 2do MVP.
+
+### Resultados y Mejoras Realizadas
+
+Durante la ejecución de las pruebas en los servicios de **hability** y **exchange**, se detectó un error en el manejo de excepciones. En lugar de arrojar una excepción **ConflictException** cuando ya existía una habilidad o intercambio, el flujo se dirigía directamente al bloque `catch`, generando una excepción **NotAcceptableException**. 
+
+Para solucionar este problema, se realizó un cambio en el código de los servicios afectados, asegurando que se arroje la excepción correcta (**ConflictException**) cuando ocurra un conflicto. Este ajuste mejora la precisión en el manejo de errores y la calidad general del código, facilitando el diagnóstico de problemas y reduciendo errores inesperados.
+
+### Comandos para Ejecutar las Pruebas
+
+Asegúrate de haber instalado todas las dependencias del proyecto antes de ejecutar las pruebas.
 
 - Para **ejecutar todas las pruebas** definidas en el proyecto: ```npm run test```
 
@@ -224,14 +276,44 @@ El proyecto incluye pruebas automatizadas utilizando **Jest**. Asegúrate de hab
 
 - Para **generar un informe** de cobertura de código y ver qué partes del proyecto han sido probadas: ```npm run test:cov```
 
-- Para **probar un archivo específico**: ```npm run test nombre-del-archivo.spec.ts```
+- Para **ejecutar únicamente las pruebas implementadas**, ejecuta comandos específicos para los archivos relevantes, como:
+`
+1. **Hability**:
+  ```
+  npm run test -- src/hability/hability.service.spec
+  npm run test -- src/hability/hability.controller.spec
+  ```
+
+2. **User**:
+  ```
+  npm run test -- src/user/user.service.spec
+  npm run test -- src/user/user.controller.spec
+  ```
+
+3. **Exchange**:
+  ```
+  npm run test -- src/exchange/exchange.service.spec
+  npm run test -- src/exchange/exchange.controller.spec
+  ```
+
+4. **Profile**:
+  ```
+  npm run test -- src/profile/profile.service.spec
+  npm run test -- src/profile/profile.controller.spec
+  ```
+
+#### NOTA:
+
+Al ejecutar todos los tests (`npm run test`), algunos pueden fallar debido a que todavía no están completamente implementados. Esto incluye pruebas relacionadas con módulos o funcionalidades planificadas para versiones futuras.
+
+Los archivos `.spec` correspondientes se han dejado intencionadamente para reflejar los casos de prueba que se implementarán en el futuro. Puedes identificar estos archivos fácilmente y omitirlos si deseas ejecutar únicamente las pruebas actuales y funcionales.
 
 ## 🎨 Frontend
 Echa un vistazo a los repositorios en:
 
 - 🖥️ [Dekstop - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-HelpHub-Front)
 - 🤖 [Mobile Android - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-HelpHub-Android)
-- 🍎 [Mobile IOS - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-HelpHub-IOS)
+- 🍎 [Mobile IOS - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-Helphub-iOs)
 
 ## 🤝 Agradecimientos
 
@@ -241,8 +323,9 @@ Un agradecimiento especial a nuestros compañeros del equipo de trabajo HelpHub:
 - **Equipo de UX/UI**
 - **Equipo de Frontend**
 - **Equipo de Mobile iOS y Android**
-- **Equipo de Ciberseguridad** <br>
-Cuya colaboración, talento y esfuerzo han sido claves para superar los retos técnicos y llevar este proyecto al siguiente nivel.
+- **Equipo de Ciberseguridad**
+<br>
+Cuya contribución, talento y esfuerzo han sido claves para superar los retos técnicos y llevar este proyecto al siguiente nivel.
 
 ## 👨‍💻👩‍💻 Colaboradores
 Desarrollado y mantenido por:
@@ -258,4 +341,3 @@ Desarrollado y mantenido por:
 - **María Laura Luraschi** - Cybersecurity Analyst <br>
   [![GitHub](https://img.shields.io/badge/-GitHub-333?logo=github&logoColor=white&style=flat-square)](https://github.com/marialauraluraschi)
   [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/malalu/)  
-

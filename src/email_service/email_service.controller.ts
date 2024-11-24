@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EmailServiceService } from './email_service.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('email-service')

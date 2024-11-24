@@ -1,11 +1,11 @@
 import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from 'src/user/entities/user.schema';
+import { User, UserDocument } from '../user/entities/user.schema';
 import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { SendMailInfo } from './send-mail-info.interface';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 const mjml2html = require('mjml');
 
 
