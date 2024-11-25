@@ -311,9 +311,9 @@ Los archivos `.spec` correspondientes se han dejado intencionadamente para refle
 ## 🎨 Frontend
 Echa un vistazo a los repositorios en:
 
-- 🖥️ [Dekstop - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-HelpHub-Front)
-- 🤖 [Mobile Android - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-HelpHub-Android)
-- 🍎 [Mobile IOS - HelpHub](https://github.com/AdoptaUnJuniorPlatform/GT-Helphub-iOs)
+- 🖥️ [Dekstop - HelpHub](https://github.com/NorimNori/GT-HelpHub-Front)
+- 🤖 [Mobile Android - HelpHub](hhttps://github.com/AlejandroRomero94/GT-Helphub-Android)
+- 🍎 [Mobile IOS - HelpHub](https://github.com/katiaku/GT-Helphub-iOs)
 
 ## 🤝 Agradecimientos
 
