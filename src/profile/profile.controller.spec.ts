@@ -45,7 +45,7 @@ describe('ProfileController', () => {
         interestedSkills: [Skills.ANIMAL],
         location: '12345',
         preferredTimeRange: TimeRange.AFTERNOON,
-          selectedDays: [DaysOfWeek.SUNDAY,DaysOfWeek.SATURDAY],
+        selectedDays: [DaysOfWeek.SUNDAY, DaysOfWeek.SATURDAY],
       };
       const userId = 'userId';
       await controller.createProfile(dto, userId);

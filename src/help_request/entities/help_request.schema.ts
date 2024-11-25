@@ -6,26 +6,26 @@ export type HelpRequestDocument = HydratedDocument<HelpRequest>;
 
 @Schema()
 export class HelpRequest extends Document {
-    @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-    userId: Types.ObjectId;
-    
-    @IsString()
-    @Prop({ required: true })
-    title: string;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  userId: Types.ObjectId;
 
-    @IsString()
-    @Prop({ required: true })
-    description: string;
+  @IsString()
+  @Prop({ required: true })
+  title: string;
 
-    @IsString()	
-    @Prop()
-    category: string;
+  @IsString()
+  @Prop({ required: true })
+  description: string;
 
-    @Prop()
-    profilePicture: string;
+  @IsString()
+  @Prop()
+  category: string;
 
-    @Prop({ type: Date, default: Date.now })
-    createdAt: Date;
+  @Prop()
+  profilePicture: string;
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date;
 }
 
-export const HelpRequestSchema = SchemaFactory.createForClass(HelpRequest)
+export const HelpRequestSchema = SchemaFactory.createForClass(HelpRequest);

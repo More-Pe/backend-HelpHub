@@ -16,7 +16,6 @@ async function bootstrap() {
     }),
   );
 
-  
   //Basic Swagger configuration.
   const config = new DocumentBuilder()
     .setTitle('HelpHub')

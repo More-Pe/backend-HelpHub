@@ -1,31 +1,36 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from 'src/user/entities/user.schema';
+import { User, UserDocument } from '../user/entities/user.schema';
 import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { SendMailInfo } from './send-mail-info.interface';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 const mjml2html = require('mjml');
-
 
 @Injectable()
 export class EmailServiceService {
-
-  constructor(@InjectModel(User.name) private readonly usuarioModel: Model<UserDocument>,
+  constructor(
+    @InjectModel(User.name) private readonly usuarioModel: Model<UserDocument>,
     private readonly mailerService: MailerService,
     private userService: UserService,
-
-  ) { }
+  ) {}
 
   //Send Email to put 2FA code. We check too if user exists.
   async emailAccount(emailAccount: LoginUserDto) {
     const { email, twoFa } = emailAccount;
     const user = await this.userService.findOne(email);
 
-    if (user.length == 1) return {      //User exists? Yes-> Error code with text, and don't send email.
-      message: 'User already exists',
-    };
+    if (user.length == 1)
+      return {
+        //User exists? Yes-> Error code with text, and don't send email.
+        message: 'User already exists',
+      };
 
     try {
       const mjmlTemplate = `
@@ -129,15 +134,16 @@ export class EmailServiceService {
     }
   }
 
-
   //Send Email to put login 2FA.
   async loginEmail(loginEmail: LoginUserDto) {
     const { email, twoFa } = loginEmail;
     const user = await this.userService.findOne(email);
 
-    if (user.length == 0) return {      //User exists? No-> Error code with text, and don't send email.
-      message: 'User does not exist',
-    }
+    if (user.length == 0)
+      return {
+        //User exists? No-> Error code with text, and don't send email.
+        message: 'User does not exist',
+      };
 
     try {
       const mjmlTemplate = `
@@ -246,9 +252,11 @@ export class EmailServiceService {
     const { email, twoFa } = resetEmail;
     const user = await this.userService.findOne(email);
 
-    if (user.length == 0) return {      //User exists? No-> Error code with text, and don't send email.
-      message: 'User does not exist',
-    }
+    if (user.length == 0)
+      return {
+        //User exists? No-> Error code with text, and don't send email.
+        message: 'User does not exist',
+      };
 
     try {
       const mjmlTemplate = `
@@ -354,17 +362,14 @@ export class EmailServiceService {
 
   //Sent emails function.
   private async sendMail(mailInfo: SendMailInfo) {
-
     const emailData = {
       ...mailInfo,
-
     };
     await this.mailerService.sendMail(emailData);
   }
   //Exceptions.
   private handleDBErrors(error: any) {
-    if (error.code === '23505')
-      throw new BadRequestException(error.detail);
+    if (error.code === '23505') throw new BadRequestException(error.detail);
 
     if (error.code === 'EAUTH')
       throw new ConflictException('Mail service error, email not sent');

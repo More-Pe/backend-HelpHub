@@ -1,8 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProfileService } from './profile.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { DaysOfWeek, Profile, Skills, TimeRange } from './entities/profile.schema';
-import { NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
+import {
+  DaysOfWeek,
+  Profile,
+  Skills,
+  TimeRange,
+} from './entities/profile.schema';
+import {
+  NotFoundException,
+  ConflictException,
+  ForbiddenException,
+} from '@nestjs/common';
 
 describe('ProfileService', () => {
   let service: ProfileService;
@@ -39,13 +48,16 @@ describe('ProfileService', () => {
       mockProfileModel.findOne.mockResolvedValue(null);
       mockProfileModel.create.mockResolvedValue({});
 
-      const result = await service.createProfile({
-        description: 'Test description',
-        interestedSkills: [Skills.ANIMAL],
-        location: '12345',
-        preferredTimeRange: TimeRange.MORNING,
-        selectedDays: [DaysOfWeek.FRIDAY,DaysOfWeek.SATURDAY],
-      }, 'userId');
+      const result = await service.createProfile(
+        {
+          description: 'Test description',
+          interestedSkills: [Skills.ANIMAL],
+          location: '12345',
+          preferredTimeRange: TimeRange.MORNING,
+          selectedDays: [DaysOfWeek.FRIDAY, DaysOfWeek.SATURDAY],
+        },
+        'userId',
+      );
 
       expect(result).toBeDefined();
     });
@@ -54,25 +66,35 @@ describe('ProfileService', () => {
       mockProfileModel.findOne.mockResolvedValue({});
 
       await expect(
-        service.createProfile({
-          description: 'Test description',
-          interestedSkills: [Skills.ANIMAL],
-          location: '12345',
-          preferredTimeRange: TimeRange.AFTERNOON,
-          selectedDays: [DaysOfWeek.FRIDAY,DaysOfWeek.SATURDAY],
-        }, 'userId'),
+        service.createProfile(
+          {
+            description: 'Test description',
+            interestedSkills: [Skills.ANIMAL],
+            location: '12345',
+            preferredTimeRange: TimeRange.AFTERNOON,
+            selectedDays: [DaysOfWeek.FRIDAY, DaysOfWeek.SATURDAY],
+          },
+          'userId',
+        ),
       ).rejects.toThrow(ConflictException);
     });
   });
 
   describe('update', () => {
     it('should update a profile and return it', async () => {
-      const mockProfile = { userId: 'userId', save: jest.fn().mockResolvedValue(true) };
+      const mockProfile = {
+        userId: 'userId',
+        save: jest.fn().mockResolvedValue(true),
+      };
       mockProfileModel.findById.mockResolvedValue(mockProfile);
 
-      const result = await service.update('profileId', {
-        description: 'Updated description',
-      }, 'userId');
+      const result = await service.update(
+        'profileId',
+        {
+          description: 'Updated description',
+        },
+        'userId',
+      );
 
       expect(result).toBeTruthy();
     });
@@ -81,9 +103,13 @@ describe('ProfileService', () => {
       mockProfileModel.findById.mockResolvedValue(null);
 
       await expect(
-        service.update('profileId', {
-          description: 'Updated description',
-        }, 'userId'),
+        service.update(
+          'profileId',
+          {
+            description: 'Updated description',
+          },
+          'userId',
+        ),
       ).rejects.toThrow(NotFoundException);
     });
 
@@ -92,9 +118,13 @@ describe('ProfileService', () => {
       mockProfileModel.findById.mockResolvedValue(mockProfile);
 
       await expect(
-        service.update('profileId', {
-          description: 'Updated description',
-        }, 'userId'),
+        service.update(
+          'profileId',
+          {
+            description: 'Updated description',
+          },
+          'userId',
+        ),
       ).rejects.toThrow(ForbiddenException);
     });
   });

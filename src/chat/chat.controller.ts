@@ -1,9 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import {
   ApiOperation,
@@ -25,7 +20,7 @@ export class ChatController {
   @ApiOperation({ summary: 'Get all conversation between two clients.' })
   @ApiResponse({ status: 200, description: 'Chats fetched successfully' })
   @ApiNotFoundResponse({ description: 'No chats found' })
-  async findAllChats(@Param('id_e') id_e: string,@Param('id_r') id_r: string) {
-    return this.chatService.findAllByIds(id_e,id_r);
+  async findAllChats(@Param('id_e') id_e: string, @Param('id_r') id_r: string) {
+    return this.chatService.findAllByIds(id_e, id_r);
   }
 }

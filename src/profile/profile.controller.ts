@@ -74,7 +74,6 @@ export class ProfileController {
     return this.profileService.findByUserId(userId);
   }
 
-
   //should be this because they are need to choose every one id in home page.
   @Get('byUserId/:id')
   @UseGuards(AuthGuard('jwt'))

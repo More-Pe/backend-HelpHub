@@ -1,17 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UploadServiceService } from './upload-service.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUploadServiceDto } from './dto/create-upload-service.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('upload-service')
-@ApiTags('Upload-Service')
+@ApiTags('Upload Service')
 @ApiBearerAuth()
 export class UploadServiceController {
-  constructor(private readonly uploadService: UploadServiceService) { }
+  constructor(private readonly uploadService: UploadServiceService) {}
 
   @Post('upload-profileImage')
   @UseGuards(AuthGuard('jwt'))
@@ -39,26 +60,36 @@ export class UploadServiceController {
       required: ['image_profile', 'id_user'], // Mandatory fields
     },
   })
-  @UseInterceptors(FileInterceptor('image_profile', {
-    storage: diskStorage({
-      destination: './uploads-profiles',
-      filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, `${file.fieldname}-${uniqueSuffix}${file.originalname}`); //sure that images never will have same name
+  @UseInterceptors(
+    FileInterceptor('image_profile', {
+      storage: diskStorage({
+        destination: './uploads-profiles',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `${file.fieldname}-${uniqueSuffix}${file.originalname}`); //sure that images never will have same name
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        const allowedFormat = ['image/png', 'image/jpeg'];
+        if (!allowedFormat.includes(file.mimetype)) {
+          // Just check if the images support format
+          return cb(
+            new BadRequestException('Only PNG and JPEG files are allowed'),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+      limits: {
+        fileSize: 6 * 1024 * 1024, // Limit 6MB image perfil
       },
     }),
-    fileFilter: (req, file, cb) => {
-      const allowedFormat = ['image/png', 'image/jpeg'];
-      if (!allowedFormat.includes(file.mimetype)) {       // Just check if the images support format
-        return cb(new BadRequestException('Only PNG and JPEG files are allowed'), false);
-      }
-      cb(null, true);
-    },
-    limits: {
-      fileSize: 6 * 1024 * 1024, // Limit 6MB image perfil
-    },
-  }))
-  async uploadImage(@UploadedFile() file: Express.Multer.File, @Body() id_user: CreateUploadServiceDto) {
+  )
+  async uploadImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() id_user: CreateUploadServiceDto,
+  ) {
     try {
       if (!file) {
         throw new BadRequestException('No file uploaded');
@@ -76,7 +107,7 @@ export class UploadServiceController {
   @ApiNotFoundResponse({ description: 'No profile-image found!' })
   async getFile(@Param('id') id: string, @Res() res: any) {
     const file = await this.uploadService.getFileById(id);
-    const filePath = join(process.cwd(), file.filepath); // 
+    const filePath = join(process.cwd(), file.filepath); //
     return res.sendFile(filePath); // Returns directly image path.
   }
 
@@ -87,7 +118,7 @@ export class UploadServiceController {
   @ApiNotFoundResponse({ description: 'No profile-image found!' })
   async getFileByUser(@Param('id') id: string, @Res() res: any) {
     const file = await this.uploadService.getFileByIdUser(id);
-    const filePath = join(process.cwd(), file.filepath); // 
+    const filePath = join(process.cwd(), file.filepath); //
     return res.sendFile(filePath); // Returns directly image path.
   }
 
@@ -133,30 +164,39 @@ export class UploadServiceController {
       required: ['image_profile'], // Mandatory fields
     },
   })
-  @UseInterceptors(FileInterceptor('image_profile', {
-    storage: diskStorage({
-      destination: './uploads-profiles',
-      filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, `${file.fieldname}-${uniqueSuffix}${file.originalname}`); //sure that images never will have same name
+  @UseInterceptors(
+    FileInterceptor('image_profile', {
+      storage: diskStorage({
+        destination: './uploads-profiles',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `${file.fieldname}-${uniqueSuffix}${file.originalname}`); //sure that images never will have same name
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        const allowedFormat = ['image/png', 'image/jpeg'];
+        if (!allowedFormat.includes(file.mimetype)) {
+          // Just check if the images support format
+          return cb(
+            new BadRequestException('Only PNG and JPEG files are allowed'),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+      limits: {
+        fileSize: 6 * 1024 * 1024, // Limit 6MB image perfil
       },
     }),
-    fileFilter: (req, file, cb) => {
-      const allowedFormat = ['image/png', 'image/jpeg'];
-      if (!allowedFormat.includes(file.mimetype)) {       // Just check if the images support format
-        return cb(new BadRequestException('Only PNG and JPEG files are allowed'), false);
-      }
-      cb(null, true);
-    },
-    limits: {
-      fileSize: 6 * 1024 * 1024, // Limit 6MB image perfil
-    },
-  }))
-  async updateImageUser(@Param('id') id_user: string,@UploadedFile() file: Express.Multer.File) {
+  )
+  async updateImageUser(
+    @Param('id') id_user: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
     return this.uploadService.updateImageByUserId(id_user, file);
-    
   }
 }
