@@ -133,12 +133,11 @@ describe('UserService', () => {
       expect(result).toEqual([mockUser]);
     });
 
-    it('should throw NotFoundException if user is not found', async () => {
+    it('should return an empty array if user is not found', async () => {
       mockUserModel.find.mockResolvedValue([]);
 
-      await expect(service.findOne('nonexistent@example.com')).rejects.toThrow(
-        NotFoundException,
-      );
+      const result = await service.findOne('nonexistent@example.com');
+      expect(result).toEqual([]);
     });
   });
 });

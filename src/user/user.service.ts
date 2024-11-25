@@ -82,11 +82,7 @@ export class UserService {
   async findOne(email: string) {
     try {
       const userExists = await this.userModel.find({ email: email });
-      if (userExists.length == 0) {
-        throw new NotFoundException({
-          error: 'Not founded',
-        });
-      } else return userExists;
+      return userExists;
     } catch (error) {
       throw new NotFoundException({
         error: 'Not founded',
